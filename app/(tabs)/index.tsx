@@ -1,98 +1,85 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { plans } from "@/src/assets/assets";
+import PlanCard from "@/src/components/planCard";
+import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Link } from "expo-router";
+import React from "react";
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const home = () => {
+  const heroImg = require("@/src/assets/images/homeImg.png");
 
-export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
+    <View className="bg-gray-200 h-full">
+      <View className="flex flex-row justify-between px-8 py-12">
+        <Feather name="settings" size={24} color="black" />
+        <Text className="font-bold text-2xl">HOME</Text>
+        <Ionicons name="notifications-outline" size={24} color="black" />
+      </View>
+      <Text className="text-lg font-semibold mb-5 px-8" style={{fontFamily:'InterBold'}}>Featured Workouts</Text>
+      <View className="rounded-lg px-4 h-60">
+        <Link href="/fatBurner">
+          <ImageBackground
+            source={heroImg}
+            className="flex-1 items-start justify-between h-full w-full rounded-lg py-10 px-8"
+            resizeMode="contain"
+          >
+            <View className="flex flex-row items-start justify-between w-full">
+              <TouchableOpacity className="bg-gray-600 rounded-lg px-3 py-1">
+                <Text className="w-full text-center text-white" style={{fontFamily:'InterMedium'}}>Free</Text>
+              </TouchableOpacity>
+              <Text className="text-white w-1/3 text-xl" style={{fontFamily:'InterBold'}}>
+                Whole Body Workout
+              </Text>
+            </View>
+            <View className="flex flex-row   justify-between items-start w-full ">
+              <Text className=" text-lg text-white" style={{fontFamily:'InterBold'}}>Level 2</Text>
+              <View className="flex flex-row items-center justify-center w-1/3">
+                <Feather name="watch" size={12} color="white" />
+                <Text className="text-white font-semibold" style={{fontFamily:'InterBold'}}>GO MIN</Text>
+              </View>
+            </View>
+          </ImageBackground>
         </Link>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View
+        className="bg-white w-full h-[55%] absolute bottom-0 py-10 px-5"
+        style={{ borderTopStartRadius: 50, borderTopEndRadius: 50 }}
+      >
+        <View className="flex flex-row justify-between items-center mb-10">
+          <Text className="text-xl" style={{fontFamily:'InterBold'}}>Plans Set</Text>
+          <Text className="text-gray-500" style={{fontFamily:'InterBold'}}>see more</Text>
+        </View>
+        <ScrollView
+          className=" py-5"
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          {plans.map((plan, index) => {
+            return (
+              <View key={index} className="mx-3 h-60 w-28 rounded-xl">
+                <Link href="/preview" asChild>
+                  <TouchableOpacity className="h-full">
+                    <PlanCard plan={plan} />
+                  </TouchableOpacity>
+                </Link>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </View>
+    </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+export default home;
+
+const styles = StyleSheet.create({});

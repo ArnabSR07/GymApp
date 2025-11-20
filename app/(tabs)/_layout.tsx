@@ -1,35 +1,133 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const TabRoot = () => {
+  const profileIcon = require("../../src/assets/images/profileIcon.png");
+  const dumbleIcon = require("../../src/assets/images/dumbleIcon.png");
+  const graphIcon = require("../../src/assets/images/graphIcon.png");
+  const homeIcon = require("../../src/assets/images/homeIcon.png");
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          borderTopEndRadius: 30,
+          borderTopStartRadius: 30,
+          backgroundColor: "black",
+          paddingTop: 20,
+          paddingBottom: 20,
+          position: "absolute",
+          bottom: 0,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? "purple" : "transparent",
+                padding: 10, // space around the icon
+                borderRadius: 12, // makes it a rounded box
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                source={homeIcon}
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? "white" : "white", // icon color inside the box
+                }}
+              />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="workstat"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? "purple" : "transparent",
+                padding: 10,
+                borderRadius: 12,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                source={dumbleIcon}
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? "white" : "white",
+                }}
+              ></Image>
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="statistics"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? "purple" : "transparent",
+                padding: 10,
+                borderRadius: 12,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                source={graphIcon}
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? "white" : "white",
+                }}
+              ></Image>
+            </View>
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? "purple" : "transparent",
+                padding: 10,
+                borderRadius: 12,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                source={profileIcon}
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? "white" : "white",
+                }}
+              ></Image>
+            </View>
+          ),
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default TabRoot;
+
+const styles = StyleSheet.create({});
